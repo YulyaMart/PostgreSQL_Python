@@ -20,7 +20,6 @@ def create_db(conn):
     """)
     return conn.commit()
 
-
 # Функция, позволяющая добавить нового клиента.
 def add_client(conn, first_name, last_name, email, phones=None):
     cur.execute("""
@@ -34,14 +33,12 @@ def add_client(conn, first_name, last_name, email, phones=None):
             """, (client_id, phone))
     return conn.commit()
 
-
 # Функция, позволяющая добавить телефон для существующего клиента.
 def add_phone(conn, client_id, phone):
     cur.execute("""
     INSERT INTO client_phone_info(client_id, phone_number) VALUES(%s, %s);
     """, (client_id, phone))
     return conn.commit()
-
 
 # Функция, позволяющая изменить данные о клиенте.
 def change_client(conn, client_id, first_name=None, last_name=None, email=None, phones=None):
@@ -71,14 +68,12 @@ def change_client(conn, client_id, first_name=None, last_name=None, email=None, 
         """, (phones, phone_to_change))
     return conn.commit()
 
-
 # # Функция, позволяющая удалить телефон для существующего клиента.
 def delete_phone(conn, client_id, phone):
     cur.execute("""
     DELETE FROM client_phone_info WHERE client_id=%s AND phone_number=%s;
     """, (client_id, phone))
     return conn.commit()
-
 
 # # Функция, позволяющая удалить существующего клиента.
 def delete_client(conn, client_id):
@@ -89,7 +84,6 @@ def delete_client(conn, client_id):
     DELETE FROM client_mandatory_info WHERE client_id=%s;
     """, (client_id))
     return conn.commit()
-
 
 # # Функция, позволяющая найти клиента по его данным: имени, фамилии, email или телефону.
 def find_client(conn, first_name=None, last_name=None, email=None, phone=None):
@@ -102,7 +96,6 @@ def find_client(conn, first_name=None, last_name=None, email=None, phone=None):
     OR phone_number=%s;
     ''', (first_name, last_name, email, phone))
     print(cur.fetchall())
-
 
 with psycopg2.connect(database="clients", user="postgres", password="postgres") as conn:
     with conn.cursor() as cur:
